@@ -1,7 +1,13 @@
 from flask import Flask, session, redirect, url_for, render_template, request
+from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 
+socketio = SocketIO()
+
 app = Flask(__name__)
+app.debug = True
+app.config["SECRET_KEY"] = "gjr39dkjn344_!67#"
+app.port = os.getenv("PORT", default=5000)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -14,6 +20,7 @@ def index():
         name = session.get("name", "")
         return render_template("index.html", name=name)
 
+socketio.init_app(app)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+    socketio.run(app)
