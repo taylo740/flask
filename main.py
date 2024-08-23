@@ -56,7 +56,7 @@ def chat():
         return redirect(url_for("index"))
     return render_template("chat.html", name=name)
 
-socketio.init_app(app)
+socketio.init_app(app, cors_allowed_origins="*")
 
 if __name__ == '__main__':
     socketio.run(app)
