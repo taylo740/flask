@@ -23,8 +23,10 @@
     <script type="text/javascript" charset="utf-8">
       let socket;
       $(document).ready(function(){
+        console.log('DOCUMENT READY FUNCTION');
         socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
         socket.on('connect', function() {
+          console.log('CONNECT: ' + document.domain + ' ' + location.port);
           socket.emit('joined', {});
         });
         socket.on('status', function(data) {
@@ -33,12 +35,13 @@
           $('#chat').scrollTop($('#chat')[0].scrollHeight);
         });
         socket.on('message', function(data) {
-          console.log(data)
+          console.log('MESSAGE: ' + data);
           d = new Date();
           $('#chat').val($('#chat').val() + `[${d.toLocaleTimeString()}] ${data.msg}\n`);
           $('#chat').scrollTop($('#chat')[0].scrollHeight);
         });
         $('#text').keypress(function(e) {
+          console.log('TEXT: ' + e);
           const code = e.keyCode || e.which;
           if (code == 13) {
             text = $('#text').val();
